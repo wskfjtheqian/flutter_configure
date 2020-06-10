@@ -58,7 +58,7 @@ class Configure {
   }
 
   String getString(String key) {
-    return map['key']?.toString();
+    return map[key]?.toString();
   }
 
   void setInt(String key, int value) {
