@@ -32,7 +32,7 @@ class Configure {
   File _configureFile;
 
   Future<bool> reload() async {
-    Directory appDocDir = await getApplicationSupportDirectory();
+    Directory appDocDir = Platform.isWindows ? Directory("") : await getApplicationSupportDirectory();
     _configureFile = File('${appDocDir.path}/configure_save.json');
     if (!_configureFile.existsSync()) {
       _configureFile.createSync();
