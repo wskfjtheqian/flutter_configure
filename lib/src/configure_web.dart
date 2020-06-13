@@ -1,18 +1,24 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html' as html;
+import 'configure_imp.dart' as imp;
 
-import 'package:flutter_web_plugins/src/plugin_registry.dart';
+class ConfigureImp extends imp.ConfigureImp {
+  static Future<ConfigureImp> _instance;
 
-import 'configure.dart';
+  static Future<ConfigureImp> get instance {
+    if (null != _instance) {
+      return _instance;
+    }
 
-class ConfigureWeb extends Configure {
-  static void registerWith(Registrar registrarFor) {
-    Configure.instance = Future.value(ConfigureWeb());
+    var temp = ConfigureImp();
+    return _instance = temp.reload().then((value) {
+      return temp;
+    });
   }
 
   @override
-  Future<bool> reload() {
+  Future<bool> reload() async {
     var storage = html.window.localStorage;
     if (storage.containsKey("configure_save")) {
       map = json.decode(storage["configure_save"]);

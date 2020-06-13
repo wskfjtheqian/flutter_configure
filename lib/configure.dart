@@ -1,133 +1,37 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+import 'src/configure_imp.dart' if (dart.library.html) 'src/configure_web.dart' as conf;
 
-class Configure {
-  static Future<Configure> _instance;
+abstract class Configure {
+  static Future<Configure> instance = conf.ConfigureImp.instance;
 
-  static Future<Configure> get instance {
-    if (null != _instance) {
-      return _instance;
-    }
+  void setString(String key, String value);
 
-    var temp = Configure();
-    return temp.reload().then((value) {
-      return temp;
-    });
-  }
+  String getString(String key);
 
-  static set instance(Future<Configure> value) {
-    _instance = value;
-  }
+  void setInt(String key, int value);
 
-  Map<String, dynamic> _map = {};
+  int getInt(String key);
 
-  Map<String, dynamic> get map => _map;
+  void setDouble(String key, double value);
 
-  set map(Map<String, dynamic> value) {
-    _map = value;
-  }
+  double getDouble(String key);
 
-  File _configureFile;
+  void setBool(String key, bool value);
 
-  Future<bool> reload() async {
-    Directory appDocDir = Platform.isWindows ? Directory("") : await getApplicationSupportDirectory();
-    _configureFile = File('${appDocDir.path}/configure_save.json');
-    if (!_configureFile.existsSync()) {
-      _configureFile.createSync();
-    }
-    return _configureFile.readAsString().then((value) {
-      if (null != value && value.isNotEmpty) {
-        try {
-          _map = json.decode(value);
-        } catch (e) {}
-      }
-      return true;
-    });
-  }
+  bool getBool(String key);
 
-  @override
-  Future<bool> save() {
-    return _configureFile.writeAsString(json.encode(map)).then((value) => true);
-  }
+  void setStringList(String key, List<String> value);
 
-  void setString(String key, String value) {
-    _map[key] = value;
-    save();
-  }
+  List<String> getStringList(String key);
 
-  String getString(String key) {
-    return map[key]?.toString();
-  }
+  void setIntList(String key, List<int> value);
 
-  void setInt(String key, int value) {
-    _map[key] = value;
-    save();
-  }
+  List<int> getIntList(String key);
 
-  int getInt(String key) {
-    var temp = map[key];
-    return null == temp ? null : (temp is num ? temp.toInt() : int.tryParse(temp));
-  }
+  void setDoubleList(String key, List<double> value);
 
-  void setDouble(String key, double value) {
-    _map[key] = value;
-    save();
-  }
+  List<double> getDoubleList(String key);
 
-  double getDouble(String key) {
-    var temp = map[key];
-    return null == temp ? null : (temp is num ? temp.toDouble() : double.tryParse(temp));
-  }
+  void setBoolList(String key, List<bool> value);
 
-  void setBool(String key, bool value) {
-    _map[key] = value;
-    save();
-  }
-
-  bool getBool(String key) {
-    var temp = map[key];
-    return null == temp ? null : (temp is bool ? bool : bool.fromEnvironment(temp));
-  }
-
-  void setStringList(String key, List<String> value) {
-    _map[key] = value;
-    save();
-  }
-
-  List<String> getStringList(String key) {
-    var temp = map[key];
-    return null == temp ? [] : (temp is List ? temp.map((map) => map?.toString()).toList() : []);
-  }
-
-  void setIntList(String key, List<int> value) {
-    _map[key] = value;
-    save();
-  }
-
-  List<int> getIntList(String key) {
-    var temp = map[key];
-    return null == temp ? [] : (temp is List ? temp.map((map) => null == map ? null : (map is num ? map.toInt() : int.tryParse(map))).toList() : []);
-  }
-
-  void setDoubleList(String key, List<double> value) {
-    _map[key] = value;
-    save();
-  }
-
-  List<double> getDoubleList(String key) {
-    var temp = map[key];
-    return null == temp ? [] : (temp is List ? temp.map((map) => null == map ? null : (map is num ? map.toDouble() : double.tryParse(map))).toList() : []);
-  }
-
-  void setBoolList(String key, List<bool> value) {
-    _map[key] = value;
-    save();
-  }
-
-  List<bool> getBoolList(String key) {
-    var temp = map[key];
-    return null == temp ? [] : (temp is List ? temp.map((map) => null == map ? null : (map is num ? map : bool.fromEnvironment(map))).toList() : []);
-  }
+  List<bool> getBoolList(String key);
 }
