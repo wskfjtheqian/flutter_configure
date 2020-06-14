@@ -1,14 +1,29 @@
 # configure
 
-A new flutter plugin project.
+Save configuration to JSON file
+
+## support
+
+-[x] Android
+-[x] Ios
+-[x] Web
+-[x] Mac
+-[x] Windows
+-[x] Linux
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+```yaml
+dependencies:
+  ...
+  configure: 1.0.0
+```
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+### example
+```dart
+import 'package:configure/configure.dart';
+...
+    Configure.instance.then((value) {
+      value.setString("Name", "heqian");
+    });
+```

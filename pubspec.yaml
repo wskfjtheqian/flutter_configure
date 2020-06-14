@@ -1,6 +1,6 @@
 name: configure
-description: A new flutter plugin project.
-version: 0.0.1
+description: Save configuration to JSON file
+version: 1.0.0
 author:
 homepage:
 
