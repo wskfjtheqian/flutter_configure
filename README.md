@@ -1,6 +1,6 @@
 # configure
 
-Save configuration to JSON file
+Save and read configure by json file
 
 ## support
 
