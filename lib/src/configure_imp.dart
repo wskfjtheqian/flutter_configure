@@ -29,7 +29,7 @@ class ConfigureImp extends Configure {
   File _configureFile;
 
   Future<bool> reload() async {
-    Directory appDocDir = Platform.isWindows ? Directory("") : await getApplicationSupportDirectory();
+    Directory appDocDir = Platform.isWindows ? Directory.current : await getApplicationSupportDirectory();
     _configureFile = File('${appDocDir.path}/configure_save.json');
     if (!_configureFile.existsSync()) {
       _configureFile.createSync();
