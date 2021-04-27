@@ -1,6 +1,6 @@
 name: configure
 description: Save configuration to JSON file
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/wskfjtheqian/flutter_configure
 
 environment:
